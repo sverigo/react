@@ -1,0 +1,21 @@
+.app-header {
+    margin: 20px 10px;
+}
+
+.app-header h1 {
+    text-align: center;
+}
+
+.app-header .sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-header .sub-header .count {
+    font-size: 20px;
+}
+
+.bold {
+    font-weight: bold;
+}
