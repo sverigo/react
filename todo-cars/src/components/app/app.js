@@ -3,9 +3,13 @@ import React, { Component } from 'react';
 import AppHeader from '../app-header';
 import CarsList from '../cars-list';
 
+import CarsService from '../../services/cars-service';
+
 import './app.css';
 
 export default class App extends Component {
+
+    carsService = new CarsService();
 
     state = {
         cars: [
@@ -22,6 +26,14 @@ export default class App extends Component {
         this.setState({ cars: newCars });
     }
 
+    test = () => {
+        this.carsService.getResource()
+            .then((data) => {
+                console.log(data);
+                this.setState({ cars: data })
+            });
+    }
+
     render() {
         const { cars } = this.state;
 
@@ -29,6 +41,7 @@ export default class App extends Component {
             <div className="app">
                 <AppHeader count={cars.length} />
                 <CarsList cars={cars} deleteCar={this.deleteCar} />
+                <button onClick={this.test}>test</button>
             </div>
         );
     }
