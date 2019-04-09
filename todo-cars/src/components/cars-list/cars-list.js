@@ -3,10 +3,15 @@ import CarsItem from '../cars-item';
 import './cars-list.css';
 
 export default class CarsList extends Component {
+    
+    onUpdateAction(id) {
+        this.props.history.push('/update/' + id);
+    }
+
     render() {
         const { cars, deleteCar } = this.props;
         const elements = cars.map((car) => {
-            return <CarsItem key={car.id} car={car} onDeleteAction={() => deleteCar(car.id)} />
+            return <CarsItem key={car.id} car={car} onUpdateAction={() => {this.onUpdateAction(car.id)}} onDeleteAction={() => deleteCar(car.id)} />
         });
 
         return (
