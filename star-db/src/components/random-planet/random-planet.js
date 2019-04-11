@@ -1,24 +1,22 @@
 import React, { Component, Fragment } from 'react';
 
-import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
+import SwapiService from '../../services/swapi-service';
 
 import './random-planet.css';
 
 export default class RandomPlanet extends Component {
-
     swapiService = new SwapiService();
 
     state = {
         planet: {},
-        loading: true,
-        error: false
+        loading: true
     };
 
     componentDidMount() {
         this.updatePlanet();
-        this.inverval = setInterval(this.updatePlanet, 5000);
+        this.inverval = setInterval(this.updatePlanet, 10000);
     }
 
     componentWillUnmount() {
@@ -33,7 +31,7 @@ export default class RandomPlanet extends Component {
     };
 
     onPlanetLoaded = (planet) => {
-        this.setState({ planet, loading: false });
+        this.setState({ planet, loading: false, error: false });
     };
 
     onPlanetError = (error) => {
@@ -58,8 +56,10 @@ export default class RandomPlanet extends Component {
     }
 }
 
-const PlanetView = ({planet}) => {
+const PlanetView = ({ planet }) => {
     const { id, name, population, rotationPeriod, diameter } = planet;
+    const url = this.swapiService.getPlanetImage(id);
+    console.log(url);
 
     return (
         <Fragment>
