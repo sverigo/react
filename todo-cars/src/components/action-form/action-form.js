@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import CarsService from '../../services/cars-service';
+import NotFound from '../not-found';
 
 import './action-form.css';
 
@@ -24,12 +25,20 @@ export default class ActionForm extends Component {
         if (id !== undefined) {
             this.carsService.getCarById(id)
                 .then((data) => {
+                    this.setState({ notFound: false });
                     this.setState(data);
+                })
+                .catch(() => {
+                    this.setState({ notFound: true });
                 });
         }
     }
 
     render() {
+        if (this.state.notFound === true) {
+            return <NotFound />
+        }
+
         return (
             <form className="action-form card" onSubmit={this.handleSubmit} noValidate>
                 <h1>Form</h1>

@@ -33,13 +33,15 @@ export default class CarsService {
         const response = await fetch(`${this._apiBase}${id}`, { 
             method: 'delete',
             headers: this._headers
-        });
+        })
         return await response.json();
     }
 
     async getCarById(id) {
         const response = await fetch(`${this._apiBase}${id}`);
+        if (response.status === 404) throw new Error();
         return await response.json();
+        
     }
 
     getLastId(cars) {
