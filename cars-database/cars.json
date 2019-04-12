@@ -1,0 +1,37 @@
+{
+  "cars": [
+    {
+      "id": 1,
+      "make": "Nissan",
+      "model": "Leaf",
+      "price": "14999",
+      "errors": {
+        "make": "",
+        "price": ""
+      }
+    },
+    {
+      "id": 2,
+      "make": "Tesla",
+      "model": "Model S",
+      "price": "57000"
+    },
+    {
+      "id": 3,
+      "make": "BMW",
+      "model": "I3",
+      "price": 27900
+    },
+    {
+      "id": 4,
+      "make": "Test",
+      "model": "Car1",
+      "price": "14999",
+      "errors": {
+        "make": "",
+        "model": "",
+        "price": ""
+      }
+    }
+  ]
+}
