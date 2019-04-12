@@ -5,7 +5,7 @@ import CarsListItem from '../cars-list-item';
 import Loading from '../loading';
 import Error from '../error';
 import { withCarsService } from '../helpers';
-import { carsLoaded, carsRequested, carsError } from '../../actions/actions';
+import { carsLoaded, carsRequested, carsError, deleteCar } from '../../actions/actions';
 
 import './cars-list.css';
 
@@ -19,7 +19,7 @@ class CarsList extends Component {
     }
 
     render() {
-        const { cars, loading, error } = this.props;
+        const { cars, loading, error, deleteCar } = this.props;
 
         if (loading) {
             return <Loading />
@@ -30,15 +30,32 @@ class CarsList extends Component {
         }
 
         return (
-            <ul className="cars-list">
-                {
-                    cars.map((car) => {
-                        return <li key={car.id}><CarsListItem car={car} /></li>
-                    })
-                }
-            </ul>
+            <div>
+                <ul className="cars-list">
+                    {
+                        cars.map((car) => {
+                            return (
+                                <li key={car.id}>
+                                    <CarsListItem car={car} onUpdateAction={() => this.redirectToUpdate(car.id)}
+                                        onDeleteAction={() => deleteCar(car.id)} />
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
+                <button onClick={this.redirectToCreate}>Create</button>
+            </div>
+
         );
     }
+
+    redirectToCreate = () => {
+        this.props.history.push('/create');
+    };
+
+    redirectToUpdate = (id) => {
+        this.props.history.push('/update/' + id);
+    };
 }
 
 const mapStateToProps = (state) => {
@@ -52,7 +69,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     carsRequested,
     carsLoaded,
-    carsError
+    carsError,
+    deleteCar
 }
 
 export default withCarsService()(connect(mapStateToProps, mapDispatchToProps)(CarsList));

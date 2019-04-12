@@ -5,6 +5,8 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+    console.log(action.type);
+
     switch (action.type) {
         case 'FETCH_CARS_REQUEST':
             return {
@@ -24,6 +26,16 @@ const reducer = (state = initialState, action) => {
                 loading: false,
                 error: action.payload
             };
+        case 'UPDATE_CAR':
+            console.log('update_car', action.payload);
+            return {
+                ...state
+            }
+        case 'DELETE_CAR':
+            console.log('delete_car', action.payload);
+            return {
+                ...state
+            }
         default:
             return state;
     }
