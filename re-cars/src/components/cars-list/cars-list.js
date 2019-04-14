@@ -45,7 +45,6 @@ class CarsList extends Component {
                 </ul>
                 <button onClick={this.redirectToCreate}>Create</button>
             </div>
-
         );
     }
 

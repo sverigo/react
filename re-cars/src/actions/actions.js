@@ -1,3 +1,7 @@
+import CarsService from '../services/cars-service';
+
+const carsService = new CarsService();
+
 const carsRequested = () => {
     return {
         type: 'FETCH_CARS_REQUESTED',
@@ -18,24 +22,52 @@ const carsError = (error) => {
     };
 };
 
-const updateCar = (carId) => {
-    return {
-        type: 'UPDATE_CAR',
-        payload: carId
-    };
+const createCar = (car) => {
+    return async (dispatch) => {
+        const request = carsService.create(car);
+        
+        return request.then(() => {
+            dispatch({ type: 'CREATE_CAR', payload: car })
+        });
+    }
+}
+
+const updateCar = (car) => {
+    return async (dispatch) => {
+        const request = carsService.update(car);
+
+        return request.then(() => {
+            dispatch({ type: 'UPDATE_CAR', payload: car })
+        });
+    }
 };
 
 const deleteCar = (carId) => {
-    return {
-        type: 'DELETE_CAR',
-        payload: carId
+    return async (dispatch) => {
+        const request = carsService.delete(carId);
+
+        return request.then(() => {
+            dispatch({ type: 'DELETE_CAR', payload: carId });
+        });
     };
+}
+
+const setSelectedCar = (carId) => {
+    return async (dispatch) => {
+        const request = carsService.getCarById(carId);
+
+        return request.then((car) => {
+            dispatch({ type: 'SET_SELECTED_CAR', payload: car })
+        });
+    }
 }
 
 export {
     carsRequested,
     carsLoaded,
     carsError,
+    setSelectedCar,
+    createCar,
     updateCar,
     deleteCar
 };
