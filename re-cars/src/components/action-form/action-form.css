@@ -8,3 +8,7 @@
     display: flex;
     flex-flow: column;
 }
+
+.form-container h1 {
+    text-align: center;
+}

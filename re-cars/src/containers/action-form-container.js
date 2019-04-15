@@ -57,7 +57,7 @@ class ActionFormContainer extends Component {
         event.preventDefault();
 
         if (!this._formValid(this.state)) {
-            console.log('validation error');
+            console.log('validation error'); // SHOULD BE IMPLEMENTED
         } else {
             if (this.state.id) {
                 this.props.updateCar(this.state).then(() => {

@@ -9,8 +9,9 @@ const ActionForm = (props) => {
     const { state, handleCancel, handleChange, handleSubmit } = props;
     return (
         <div className="form-container">
+            <h1>Form</h1>
             <form onSubmit={handleSubmit}>
-                <TextField margin="normal" fullWidth name="make" label="Make" fullWidth
+                <TextField margin="normal" name="make" label="Make" fullWidth
                     onChange={handleChange} value={state.make}
                     error={Boolean(state.validateErrors.make)}
                     helperText={state.validateErrors.make}

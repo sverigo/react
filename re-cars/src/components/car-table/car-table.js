@@ -16,6 +16,7 @@ const CarTable = (props) => {
 
     return (
         <div className="table">
+            <h1>ReCars App</h1>
             <Table>
                 <TableHead>
                     <TableRow>
