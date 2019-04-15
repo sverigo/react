@@ -10,12 +10,21 @@ const ActionForm = (props) => {
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit}>
-                <TextField margin="normal" fullWidth name="make" value={state.make} 
-                    onChange={handleChange} placeholder="Make" label="Make" />
-                <TextField margin="normal" fullWidth name="model" value={state.model} 
-                    onChange={handleChange} placeholder="Model" label="Model"  />
-                <TextField margin="normal" fullWidth name="price" value={state.price} 
-                    onChange={handleChange} placeholder="Price" label="Price"  />
+                <TextField margin="normal" fullWidth name="make" label="Make" fullWidth
+                    onChange={handleChange} value={state.make}
+                    error={Boolean(state.validateErrors.make)}
+                    helperText={state.validateErrors.make}
+                />
+                <TextField margin="normal" name="model" label="Model" fullWidth
+                    onChange={handleChange} value={state.model}
+                    error={Boolean(state.validateErrors.model)}
+                    helperText={state.validateErrors.model}
+                />
+                <TextField margin="normal" name="price" label="Price" fullWidth
+                    onChange={handleChange} value={state.price}
+                    error={Boolean(state.validateErrors.price)}
+                    helperText={state.validateErrors.price}
+                />
                 <Button color="primary" type="submit">OK</Button>
                 <Button color="secondary" type="button" onClick={handleCancel}>Cancel</Button>
             </form>
