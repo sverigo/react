@@ -1,19 +1,25 @@
 const initialState = {
     cars: [],
     loading: true,
-    error: null
+    error: null,
+    currentCar: null
 };
 
 const reducer = (state = initialState, action) => {
-    console.log(action.type);
+    const newCars = [...state.cars];
 
     switch (action.type) {
-        case 'FETCH_CARS_REQUEST':
+        case 'PAGE_IS_LOADING':
             return {
-                cars: [],
-                loading: true,
-                error: null
-            };
+                ...state,
+                loading: true
+            }
+        case 'FETCH_ERROR':
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
         case 'FETCH_CARS_SUCCESS':
             return {
                 cars: action.payload,
@@ -26,16 +32,29 @@ const reducer = (state = initialState, action) => {
                 loading: false,
                 error: action.payload
             };
+        case 'SET_CURRENT_CAR':
+            return {
+                ...state,
+                currentCar: action.payload,
+                loading: false,
+            };
+        case 'CREATE_CAR':
+            newCars.push(action.payload);
+            return {
+                ...state,
+                cars: newCars
+            };
         case 'UPDATE_CAR':
-            console.log('update_car', action.payload);
             return {
                 ...state
-            }
+            };
         case 'DELETE_CAR':
-            console.log('delete_car', action.payload);
+            const index = state.cars.findIndex((car) => car.id === action.payload);
+            newCars.splice(index, 1);
             return {
-                ...state
-            }
+                ...state,
+                cars: newCars
+            };
         default:
             return state;
     }

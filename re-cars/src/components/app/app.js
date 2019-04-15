@@ -1,18 +1,20 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import CarsList from '../cars-list';
+import { CarTableContainer } from '../../containers';
 import ActionForm from '../action-form';
+import Error from '../error';
 
 import './app.css';
 
 const App = () => {
     return (
-        <main className="container">
+        <main>
             <Switch>
-                <Route exact path='/' component={CarsList} />
+                <Route exact path='/' component={CarTableContainer} />
                 <Route path='/create' component={ActionForm} />
                 <Route path='/update/:id(\d+)' component={ActionForm} />
+                <Route render={() => <Error title="404 - Not Found" message="Requested address doesn't exist" />} />
             </Switch>
         </main>
     );

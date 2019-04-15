@@ -1,0 +1,9 @@
+.error {
+    margin: 20px 0;
+    text-align: center;
+    font-family: 'Roboto';
+}
+
+.error h1 {
+    margin: 0;
+}
