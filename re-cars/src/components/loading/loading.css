@@ -1,0 +1,7 @@
+.loading {
+    display: flex;
+}
+
+.loading-spinner {
+    margin: 20px auto;
+}

@@ -4,11 +4,7 @@
       "id": 1,
       "make": "Nissan",
       "model": "Leaf",
-      "price": "14999",
-      "errors": {
-        "make": "",
-        "price": ""
-      }
+      "price": "14999"
     },
     {
       "id": 2,
@@ -18,20 +14,21 @@
     },
     {
       "id": 3,
-      "make": "BMW",
-      "model": "I3",
-      "price": 27900
+      "make": "Tesla",
+      "model": "P85",
+      "price": "37500"
     },
     {
       "id": 4,
-      "make": "Test",
-      "model": "Car1",
-      "price": "14999",
-      "errors": {
-        "make": "",
-        "model": "",
-        "price": ""
-      }
+      "make": "Smart",
+      "model": "ForTwo Electric Drive",
+      "price": "9900"
+    },
+    {
+      "id": 5,
+      "make": "Chevrolet",
+      "model": "Volt",
+      "price": "14700"
     }
   ]
 }

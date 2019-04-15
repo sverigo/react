@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { withCarsService } from '../helpers';
-import { setSelectedCar, createCar, updateCar } from '../../actions/actions';
+import Loading from '../loading';
+import Error from '../error';
+import { pageIsLoading, fetchError, setCurrentCar, createCar, updateCar } from '../../actions/actions';
 
 import './action-form.css';
 
 class ActionForm extends Component {
-
     state = {
         id: null,
         make: '',
@@ -16,24 +16,34 @@ class ActionForm extends Component {
     };
 
     componentDidMount() {
+        pageIsLoading();
         const id = this.props.match.params.id;
         if (id) {
-            this.props.setSelectedCar(id).then(() => {
-                const selectedCar = this.props.selectedCar;
-                this.setState({
-                    id,
-                    make: selectedCar.make,
-                    model: selectedCar.model,
-                    price: selectedCar.price
-                });
-            })
-            .catch(() => {
-                this.props.history.push('/');
+            this.props.setCurrentCar(id).catch(() => {
+                this.props.fetchError('Failed to load');
+            });
+        }
+    }
+
+    componentWillReceiveProps(props) {
+        const currentCar = props.currentCar;
+
+        if (currentCar) {
+            this.setState({
+                id: this.props.match.params.id,
+                make: currentCar.make,
+                model: currentCar.model,
+                price: currentCar.price
             });
         }
     }
 
     render() {
+
+        if (this.props.loading) return <Loading />
+
+        if (this.props.error) return <Error title="404 - Not Found" message="Requested address doesn't exist"  />
+
         return (
             <div>
                 <h1>Form</h1>
@@ -42,6 +52,7 @@ class ActionForm extends Component {
                     <input name="model" type="text" value={this.state.model} onChange={this.handleChange} />
                     <input name="price" type="text" value={this.state.price} onChange={this.handleChange} />
                     <button>OK</button>
+                    <button type="button" onClick={this.handleCancel}>Cancel</button>
                 </form>
             </div>
         );
@@ -67,18 +78,27 @@ class ActionForm extends Component {
 
         this.setState({ [name]: value });
     };
+
+    handleCancel = (event) => {
+        event.preventDefault();
+        this.props.history.push('/');
+    }
 }
 
 const mapStateToProps = (state) => {
     return {
-        selectedCar: state.selectedCar
+        error: state.error,
+        loading: state.loading,
+        currentCar: state.currentCar
     };
-}
+};
 
 const mapDispatchToProps = {
-    setSelectedCar,
+    pageIsLoading,
+    fetchError,
+    setCurrentCar,
     createCar,
     updateCar
 };
 
-export default withCarsService()(connect(mapStateToProps, mapDispatchToProps)(ActionForm));
+export default connect(mapStateToProps, mapDispatchToProps)(ActionForm);

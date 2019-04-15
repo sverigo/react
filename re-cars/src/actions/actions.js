@@ -2,47 +2,71 @@ import CarsService from '../services/cars-service';
 
 const carsService = new CarsService();
 
-const carsRequested = () => {
+export const pageIsLoading = () => {
     return {
-        type: 'FETCH_CARS_REQUESTED',
+        type: 'PAGE_IS_LOADING'
     };
-}
+};
 
-const carsLoaded = (newCars) => {
+export const fetchError = (error) => {
+    return {
+        type: 'FETCH_ERROR',
+        payload: error
+    };
+};
+
+export const fetchCars = () => {
+    return async (dispatch) => {
+        carsService.getCarsList()
+            .then((data) => dispatch(fetchCarsSuccess(data)))
+            .catch((error) => dispatch(fetchCarsFailure(error)));
+    };
+};
+
+export const fetchCarsSuccess = (newCars) => {
     return {
         type: 'FETCH_CARS_SUCCESS',
         payload: newCars
     };
 };
 
-const carsError = (error) => {
+export const fetchCarsFailure = (error) => {
     return {
         type: 'FETCH_CARS_FAILURE',
         payload: error
     };
 };
 
-const createCar = (car) => {
+export const setCurrentCar = (carId) => {
+    return async (dispatch) => {
+        const request = carsService.getCarById(carId);
+        return request.then((car) => {
+            dispatch({ type: 'SET_CURRENT_CAR', payload: car });
+        });
+    };
+};
+
+export const createCar = (car) => {
     return async (dispatch) => {
         const request = carsService.create(car);
-        
+
         return request.then(() => {
             dispatch({ type: 'CREATE_CAR', payload: car })
         });
-    }
-}
+    };
+};
 
-const updateCar = (car) => {
+export const updateCar = (car) => {
     return async (dispatch) => {
         const request = carsService.update(car);
 
         return request.then(() => {
             dispatch({ type: 'UPDATE_CAR', payload: car })
         });
-    }
+    };
 };
 
-const deleteCar = (carId) => {
+export const deleteCar = (carId) => {
     return async (dispatch) => {
         const request = carsService.delete(carId);
 
@@ -50,24 +74,4 @@ const deleteCar = (carId) => {
             dispatch({ type: 'DELETE_CAR', payload: carId });
         });
     };
-}
-
-const setSelectedCar = (carId) => {
-    return async (dispatch) => {
-        const request = carsService.getCarById(carId);
-
-        return request.then((car) => {
-            dispatch({ type: 'SET_SELECTED_CAR', payload: car })
-        });
-    }
-}
-
-export {
-    carsRequested,
-    carsLoaded,
-    carsError,
-    setSelectedCar,
-    createCar,
-    updateCar,
-    deleteCar
 };
