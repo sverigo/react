@@ -8,6 +8,12 @@ export const pageIsLoading = () => {
     };
 };
 
+export const pageIsLoaded = () => {
+    return {
+        type: 'PAGE_IS_LOADED'
+    };
+};
+
 export const fetchError = (error) => {
     return {
         type: 'FETCH_ERROR',

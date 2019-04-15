@@ -1,8 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { CarTableContainer } from '../../containers';
-import ActionForm from '../action-form';
+import { CarTableContainer, ActionFormContainer } from '../../containers';
 import Error from '../error';
 
 import './app.css';
@@ -12,8 +11,8 @@ const App = () => {
         <main>
             <Switch>
                 <Route exact path='/' component={CarTableContainer} />
-                <Route path='/create' component={ActionForm} />
-                <Route path='/update/:id(\d+)' component={ActionForm} />
+                <Route path='/create' component={ActionFormContainer} />
+                <Route path='/update/:id(\d+)' component={ActionFormContainer} />
                 <Route render={() => <Error title="404 - Not Found" message="Requested address doesn't exist" />} />
             </Switch>
         </main>

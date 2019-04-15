@@ -5,5 +5,10 @@
 }
 
 .error h1 {
-    margin: 0;
+    margin: 5px;
+}
+
+.error-icon {
+    font-size: 72px !important;
+    color: red;
 }

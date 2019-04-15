@@ -14,6 +14,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: true
             }
+        case 'PAGE_IS_LOADED':
+            return {
+                ...state,
+                loading: false
+            }
         case 'FETCH_ERROR':
             return {
                 ...state,
@@ -42,7 +47,7 @@ const reducer = (state = initialState, action) => {
             newCars.push(action.payload);
             return {
                 ...state,
-                cars: newCars
+                cars: newCars,
             };
         case 'UPDATE_CAR':
             return {

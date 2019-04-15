@@ -1,0 +1,27 @@
+.table {
+    position: relative;
+}
+
+.car-row-btn {
+    visibility: hidden;
+}
+
+.car-row:hover {
+    background-color: #eee;
+}
+
+.car-row:hover .car-row-btn {
+    visibility: visible;
+}
+
+.add-fab {
+    display: block;
+    position: absolute!important;
+    top: 0;
+    right: 10px;
+    visibility: hidden;
+}
+
+.table:hover .add-fab {
+    visibility: visible;
+}
