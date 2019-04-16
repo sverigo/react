@@ -1,5 +1,7 @@
 import React from 'react';
 
+import DialogWindow from '../dialog-window';
+
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,7 +14,7 @@ import Fab from '@material-ui/core/Fab';
 import './car-table.css';
 
 const CarTable = (props) => {
-    const { cars, onCreate, onUpdate, onDelete } = props;
+    const { cars, onCreate, onUpdate, state, handleDialogOpen, handleDialogClose, handleDialogConfirm } = props;
 
     return (
         <div className="table">
@@ -40,7 +42,7 @@ const CarTable = (props) => {
                                         <IconButton color="primary" className="car-row-btn" size="small" onClick={() => onUpdate(car.id)}>
                                             <Icon>edit</Icon>
                                         </IconButton>
-                                        <IconButton color="secondary" className="car-row-btn" size="small" onClick={() => onDelete(car.id)}>
+                                        <IconButton color="secondary" className="car-row-btn" size="small" onClick={() => handleDialogOpen(car.id)}>
                                             <Icon>delete</Icon>
                                         </IconButton>
                                     </TableCell>
@@ -53,6 +55,11 @@ const CarTable = (props) => {
             <Fab className="add-fab" size="medium" color="primary" onClick={onCreate}>
                 <Icon>add</Icon>
             </Fab>
+            <DialogWindow
+                open={state.isDialogOpen}
+                handleClose={handleDialogClose}
+                handleOk={handleDialogConfirm}
+            />
         </div>
     );
 };

@@ -6,7 +6,6 @@ import Loading from '../components/loading';
 import Error from '../components/error';
 import { pageIsLoading, pageIsLoaded, fetchError, setCurrentCar, createCar, updateCar } from '../actions/actions';
 
-
 class ActionFormContainer extends Component {
     state = {
         id: null,
@@ -21,7 +20,7 @@ class ActionFormContainer extends Component {
     };
 
     componentDidMount() {
-        const id = this.props.match.params.id;
+        const { id } = this.props.match.params;
         if (id) {
             this.props.setCurrentCar(id).catch(() => {
                 this.props.fetchError('Failed to load');
@@ -32,7 +31,7 @@ class ActionFormContainer extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const currentCar = props.currentCar;
+        const { currentCar } = props;
 
         if (currentCar) {
             this.setState({
@@ -45,20 +44,33 @@ class ActionFormContainer extends Component {
     }
 
     render() {
-        if (this.props.loading) return <Loading />
+        if (this.props.loading) {
+            return <Loading />
+        }
 
-        if (this.props.error) return <Error title="404 - Not Found" message="Requested address doesn't exist" />
+        if (this.props.error) {
+            return (
+                <Error
+                    title="404 - Not Found"
+                    message="Requested address doesn't exist"
+                />
+            );
+        }
 
-        return <ActionForm state={this.state} handleCancel={this.handleCancel}
-            handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
+        return (
+            <ActionForm
+                state={this.state}
+                handleCancel={this.handleCancel}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit} 
+            />
+        );
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
 
-        if (!this._formValid(this.state)) {
-            console.log('validation error'); // SHOULD BE IMPLEMENTED
-        } else {
+        if (this._formValid(this.state)) {
             if (this.state.id) {
                 this.props.updateCar(this.state).then(() => {
                     this.props.history.push('/');
@@ -74,21 +86,8 @@ class ActionFormContainer extends Component {
     handleChange = (event) => {
         event.preventDefault();
         const { name, value } = event.target;
-        const { validateErrors } = this.state;
 
-        switch (name) {
-            case 'make':
-                validateErrors.make = value.length < 3 ? 'Minumum 3 characters required!' : '';
-                break;
-            case 'model':
-                validateErrors.model = value.length < 3 ? 'Minumum 3 characters required!' : '';
-                break;
-            case 'price':
-                validateErrors.price = !this._isNumber(value) ? 'Entered value must be number!' : '';
-                break;
-            default:
-                break;
-        }
+        this._validateInput(name, value);
 
         this.setState({ [name]: value });
     };
@@ -102,16 +101,36 @@ class ActionFormContainer extends Component {
         const { validateErrors, id, ...rest } = state;
         let valid = true;
 
+        Object.entries(rest).forEach((value) => {
+            this._validateInput(value[0], value[1]);
+        });
+
         Object.values(validateErrors).forEach(value => {
             value.length > 0 && (valid = false)
         });
 
-        Object.values(rest).forEach(value => {
-            value === '' && (valid = false);
-        });
-
         return valid;
-    }
+    };
+
+    _validateInput = (name, value) => {
+        const { validateErrors } = this.state;
+
+        switch (name) {
+            case 'make':
+                validateErrors.make = value.length < 3 ? 'Minimum 3 characters required!' : '';
+                break;
+            case 'model':
+                validateErrors.model = value.length < 3 ? 'Minumum 3 characters required!' : '';
+                break;
+            case 'price':
+                validateErrors.price = !this._isNumber(value) ? 'Entered value must be number!' : '';
+                break;
+            default:
+                break;
+        }
+
+        this.setState({ validateErrors })
+    };
 
     _isNumber = (value) => {
         return !isNaN(parseFloat(value)) && isFinite(value);
