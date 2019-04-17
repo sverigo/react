@@ -5,8 +5,10 @@ import DialogWindow from '../dialog-window';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
+import TableFooter from '@material-ui/core/TableFooter'
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import TablePagination from '@material-ui/core/TablePagination';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
@@ -14,7 +16,8 @@ import Fab from '@material-ui/core/Fab';
 import './car-table.css';
 
 const CarTable = (props) => {
-    const { cars, onCreate, onUpdate, state, handleDialogOpen, handleDialogClose, handleDialogConfirm } = props;
+    const { onCreate, onUpdate, state, handleDialogOpen, handleDialogClose, handleDialogConfirm,
+        handleChangePage, handleChangeRowsPerPage } = props;
 
     return (
         <div className="table">
@@ -31,7 +34,7 @@ const CarTable = (props) => {
                 </TableHead>
                 <TableBody>
                     {
-                        cars.map((car) => {
+                        state.pagination.displayedCars.map((car) => {
                             return (
                                 <TableRow className="car-row" key={car.id}>
                                     <TableCell>{car.id}</TableCell>
@@ -51,6 +54,18 @@ const CarTable = (props) => {
                         })
                     }
                 </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TablePagination 
+                            rowsPerPageOptions={state.pagination.rowsPerPageOptions}
+                            count={state.pagination.count}
+                            rowsPerPage={state.pagination.rowsPerPage}
+                            page={state.pagination.page}
+                            onChangePage={handleChangePage}
+                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                        />
+                    </TableRow>
+                </TableFooter>
             </Table>
             <Fab className="add-fab" size="medium" color="primary" onClick={onCreate}>
                 <Icon>add</Icon>
